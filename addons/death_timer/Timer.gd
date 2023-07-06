@@ -15,15 +15,17 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-# Shoutout https://github.com/trolog/GodotStopWatchAdanced/blob/main/scripts/timer_label.gd
+# Shoutout: https://stackoverflow.com/a/36099084
 func _process(delta):
 	var now = Time.get_unix_time_from_system()
 	var time = DeadlineUnix - now
-		
-	# var mils = fmod(time,1)*1000
-	var secs = fmod(time,60)
-	var mins = fmod(time, 60*60) / 60
-	var hr = fmod(fmod(time,3600 * 60) / 3600,24)
-	var dy = fmod(time,12960000) / 86400
 	
-	self.text = "%02d : %02d : %02d : %02d" % [dy,hr,mins,secs]
+	var days = floor(time / (3600 * 24));
+	time  -= days * 3600 * 24;
+	var hrs   = floor(time / 3600);
+	time  -= hrs * 3600;
+	var mnts = floor(time / 60);
+	time  -= mnts * 60;
+	var secs = time
+	
+	self.text = "%02d : %02d : %02d : %02d" % [days, hrs, mnts, secs]
